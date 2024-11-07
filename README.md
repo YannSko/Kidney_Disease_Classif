@@ -1,2 +1,2 @@
 # Kidney_Disease_Classif
-MLFLOW , DVC , Deployement AWS
+data from : https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data/data
