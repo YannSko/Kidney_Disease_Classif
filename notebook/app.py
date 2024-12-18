@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import RobustScaler
+import matplotlib as plt
 
 # Load the trained model and optimal threshold
 model = joblib.load("best_model__binaryRandomForest.joblib")  # Update the path if necessary
@@ -63,3 +64,40 @@ if st.button("Predict"):
 
     # Debugging output (optional)
     st.write("Scaled Input Data:", scaled_input_df)
+
+# Section d'exploration des données
+st.header("Exploration des données")
+
+# Choisir une colonne pour l'analyse
+selected_col = st.selectbox("Sélectionnez une colonne à analyser", data.columns)
+
+# Afficher des statistiques descriptives
+st.write(data[selected_col].describe())
+
+# Graphiques interactifs
+st.subheader("Visualisation")
+
+# Histogramme
+fig, ax = plt.subplots()
+ax.hist(data[selected_col], bins=20, alpha=0.7)
+ax.set_title(f"Distribution de {selected_col}")
+ax.set_xlabel(selected_col)
+ax.set_ylabel("Fréquence")
+st.pyplot(fig)
+
+# Corrélations avec la colonne cible
+if st.checkbox("Afficher les corrélations avec la cible"):
+    correlations = data.corr()[data.columns[-1]].sort_values(ascending=False)
+    st.write(correlations)
+
+# Afficher un scatter plot
+if st.checkbox("Afficher un scatter plot avec la cible"):
+    fig, ax = plt.subplots()
+    ax.scatter(data[selected_col], data[data.columns[-1]])
+    ax.set_title(f"Relation entre {selected_col} et la cible")
+    ax.set_xlabel(selected_col)
+    ax.set_ylabel("Cible")
+    st.pyplot(fig)
+
+st.write("---")
+st.write("Application développée avec Streamlit pour l'analyse des données de maladies cardiaques.")
